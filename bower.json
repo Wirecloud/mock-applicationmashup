@@ -1,10 +1,10 @@
 {
     "name": "mock-applicationmashup",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "homepage": "https://github.com/Wirecloud/mock-applicationmashup",
-    "main": ["lib/helpers/MashupPlatformHelper.js", "lib/vendor/mockMashupPlatform.js"],
+    "main": "lib/**/*.js",
     "authors": [
-        "WireCloud Team (https://conwet.fi.upm.es/wirecloud)",
+        "WireCloud Team (https://conwet.fi.upm.es/wirecloud)"
     ],
     "description": "A mock helper for MashupPlatform",
     "keywords": [
