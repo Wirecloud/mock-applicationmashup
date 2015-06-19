@@ -1,0 +1,24 @@
+{
+    "vendor": "CoNWeT",
+    "name": "mock-applicationmashup",
+    "version": "0.0.1",
+    "description": "A mock helper for MashupPlatform",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Wirecloud/mock-applicationmashup"
+    },
+    "keywords": [
+        "MashupPlatform",
+        "mock",
+        "wirecloud"
+    ],
+    "author": "CoNWeT Lab., Universidad Politecnica de Madrid",
+    "license": "https://github.com/Wirecloud/mock-applicationmashup/blob/master/LICENSE",
+    "bugs": {
+        "url": "https://github.com/Wirecloud/mock-applicationmashup/issues"
+    },
+    "homepage": "https://github.com/Wirecloud/mock-applicationmashup",
+    "devDependencies": {
+        "bower": "^1.3.12"
+    }
+}

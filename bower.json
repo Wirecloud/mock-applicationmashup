@@ -1,0 +1,26 @@
+{
+    "name": "mock-applicationmashup",
+    "version": "0.0.1",
+    "homepage": "https://github.com/Wirecloud/mock-applicationmashup",
+    "main": ["lib/helpers/MashupPlatformHelper.js", "lib/vendor/mockMashupPlatform.js"],
+    "authors": [
+        "WireCloud Team <https://conwet.fi.upm.es/wirecloud>",
+    ],
+    "description": "A mock helper for MashupPlatform",
+    "keywords": [
+        "MashupPlatform",
+        "mock",
+        "wirecloud"
+    ],
+    "license": "Apache 2.0",
+    "private": false,
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "tests"
+    ],
+    "devDependencies": {
+        "mock-socket": "~0.5.0"
+    }
+}
