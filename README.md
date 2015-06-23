@@ -77,26 +77,23 @@ Actually, this will create the default mock, and you can start using it.
 
 To specify the behaviour, you can use three strategies:
 
-1. Constant Strategy
+- Constant Strategy
 This strategy will return always the same value. For example:
-
 ```javascript
 var constantTest = MockMP.strategy.constant("test");
 expect(constantTest()).toBe("test");
 ```
 
-2. Exception Strategy
+- Exception Strategy
 This strategy will always throw an exception.
-
 ```javascript
 function TestException() {}
 var exceptionTest = MockMP.strategy.exception(TestException);
 expect(exceptionTest).toThrow();
 ```
 
-3. Dict Strategy
+- Dict Strategy
 This strategy is really important, you set a dictionary in a value.
-
 ```javascript
 var dictionary = {
     'value1': true,
