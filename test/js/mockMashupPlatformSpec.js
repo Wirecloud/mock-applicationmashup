@@ -294,7 +294,57 @@
             expect(cb).toHaveBeenCalledWith({'test': 'value2'});
         });
 
+        it("Wiring callback", function() {
+            var cb = jasmine.createSpy('cb');
+            MashupPlatform.wiring.registerCallback('testv', cb);
+            expect(cb).not.toHaveBeenCalled();
+
+            MashupPlatform.simulateReceiveEvent('testv', 'myvalue!');
+            expect(cb).toHaveBeenCalledWith('myvalue!');
+        });
+
+        it("Don't call in other wiring event", function() {
+            var cb = jasmine.createSpy('cb');
+            MashupPlatform.wiring.registerCallback('testv', cb);
+            expect(cb).not.toHaveBeenCalled();
+
+            MashupPlatform.simulateReceiveEvent('othertestv', 'myvalue!');
+            expect(cb).not.toHaveBeenCalled();
+        });
+
+        it("Don't call the callback if you remove all callbacks, but don't break :)", function() {
+            var cb = jasmine.createSpy('cb');
+            MashupPlatform.wiring.registerCallback('testv', cb);
+            expect(cb).not.toHaveBeenCalled();
+
+            delete MashupPlatform.callbacks;
+
+            MashupPlatform.simulateReceiveEvent('testv', 'myvalue!');
+            expect(cb).not.toHaveBeenCalled();
+
+            MashupPlatform.wiring.registerCallback('testv', cb);
+            expect(cb).not.toHaveBeenCalled();
+
+            MashupPlatform.simulateReceiveEvent('testv', 'myvalue!');
+            expect(cb).toHaveBeenCalledWith('myvalue!');
+        });
+
+        it("Widget callback with object", function() {
+            var cb = jasmine.createSpy('cb');
+            MashupPlatform.widget.context.registerCallback(cb);
+            expect(cb).not.toHaveBeenCalled();
+
+            MashupPlatform.simulateReceiveContext({'test': 'value', 'test2': 'value2'});
+            expect(cb).toHaveBeenCalledWith({'test': 'value', 'test2': 'value2'});
+        });
+
+        it("Widget callback simulate only one value", function() {
+            var cb = jasmine.createSpy('cb');
+            MashupPlatform.widget.context.registerCallback(cb);
+            expect(cb).not.toHaveBeenCalled();
+
+            MashupPlatform.simulateReceiveContext('test', 'value');
+            expect(cb).toHaveBeenCalledWith({'test': 'value'});
+        });
     });
-
-
 })();
