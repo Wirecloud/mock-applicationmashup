@@ -106,32 +106,8 @@ expect(dictTest('value2')).toBe('yeah');
 expect(dictTest('value3')()).toBe(3);
 ```
 
-The default values of the MashupPlatform when you create it with `MockMP.MockMP()` are:
-```
-{
-    "context.get": namespace.strategy.constant("not set yet"),
-    "http.buildProxyURL": namespace.strategy.constant(null),
-    "http.makeRequest": namespace.strategy.constant(null),
-    "log.ERROR": 1,
-    "log.WARN": 2,
-    "log.INFO": 3,
-    "mashup.context.get" : namespace.strategy.constant(null),
-    "prefs.get": namespace.strategy.constant("value"),
-    "prefs.set": namespace.strategy.constant(null),
-    "prefs.registerCallback": namespace.strategy.constant(null),
-    "widget.getVariable": namespace.strategy.constant("value"),
-    "widget.drawAttention": namespace.strategy.constant(null),
-    "widget.id": "id33",
-    "widget.log": namespace.strategy.constant("something"),
-    "widget.context.get" : namespace.strategy.constant(null),
-    "widget.context.registerCallback": namespace.strategy.constant(null),
-    "wiring.getReachableEndpoints": namespace.strategy.constant([]),
-    "wiring.pushEvent": namespace.strategy.constant(null),
-    "wiring.registerCallback": namespace.strategy.constant(null)
-}
-```
 
-You can expect the following behaviour with the default MashupPlatform:
+With a new clean instance of MashupPlatform, you can expect the following behaviour with the default values:
 
 ```javascript
 
@@ -256,8 +232,84 @@ expect(MashupPlatform.prefs.get).toHaveBeenCalled();
 ```
 
 
-With this approach, you can organize easily the tests by configuration, and even change it in some test without affecting the rest.
+The mock library try to emulate as much as possible the MashupPlatform, this means that all the side-effect actions that you can do with MashupPlatform, you can do it here too, if you find some function that are not implemented, or not work properly, please open as issue in the GitHub project.
 
-Let's see an example in jasmine to show how this modularity in the tests are really useful.
+The functions that have side-effect are the "setters" and the "registerCallback".
 
-In the example, we'll have two preferences, `username` and `privileges`,
+Let's see some examples:
+
+- Preferences are stateful.
+  ```javascript
+    MashupPlatform.setStrategy({
+        'prefs.get': MockMP.strategy.dict({}) // all undefined
+    });
+    expect(MashupPlatform.prefs.get('testvalue')).toBeUndefined();  // First is not defined
+    MashupPlatform.prefs.set('testvalue', 'newvalue');  // We set the value
+    expect(MashupPlatform.prefs.get('testvalue')).toBe('newvalue');  // Now it's defined!
+    ```
+
+- You can set a callback and that callback will be called properly.
+  ```javascript
+  MashupPlatform.setStrategy({
+      'prefs.get': MockMP.strategy.dict({
+          'test': 'value1'
+      })
+  });
+
+  var cb = jasmine.createSpy('cb'); // create a fake function to know when it's called
+  MashupPlatform.prefs.registerCallback(cb);  // Register the callback for preferences
+  expect(cb).not.toHaveBeenCalled();  // The callback isn't called yet
+
+  MashupPlatform.prefs.set('test', 'value2');  // Set the new value
+  expect(cb).toHaveBeenCalledWith({'test': 'value2'});  // The callback is called properly!
+  ```
+
+The functions that allow this kind of functionality are: `prefs.set/get/registerCallback`, `widget.context.registerCallback`, `wiring.registerCallback`.
+
+All the callbacks are usually called because of external interactions (the user change the preferences, the context change in the widget, or arrive some data from the wiring), and to emulate this external interactions we provide functions:
+
+- `simulateReceiveEvent(name, value)`: This will call the the wiring callback that is setted to the wiring `name` with the value `value`.
+- `simulateReceiveContext(name, value)` or `simulateReceiveContext(value)`: This will call the widget.context callback. You can use the two parameter option, that will send the object {name: value}, or the single parameter option that will send the value.
+- `simulateReceivePrefs(name, value)` or `simulateReceivePrefs(value)`: This will call the preferences callback. You can use the two parameter option, that will send the object {name: value}, or the single parameter option that will send the value.
+
+There you have examples:
+
+- Widget callback simulate:
+  ```javascript
+  var cb = jasmine.createSpy('cb'); // create spy
+  MashupPlatform.widget.context.registerCallback(cb); // register to the context
+  expect(cb).not.toHaveBeenCalled();  // still not called
+
+  MashupPlatform.simulateReceiveContext({'test': 'value', 'test2': 'value2'}); // call with a custom object
+  expect(cb).toHaveBeenCalledWith({'test': 'value', 'test2': 'value2'});  // The callback is called properly!
+
+  MashupPlatform.simulateReceiveContext('test', 'value'); // Now with just a pair of values
+  expect(cb).toHaveBeenCalledWith({'test': 'value'}); // The callback is called properly again
+  ```
+- Wiring callback simulate:
+  ```javascript
+  var cb = jasmine.createSpy('cb'); // create spy
+  MashupPlatform.wiring.registerCallback('testv', cb); // register to the wiring "testv"
+  expect(cb).not.toHaveBeenCalled(); // not called yet
+
+  MashupPlatform.simulateReceiveEvent('testv', 'myvalue!'); // Simulate an event in that wiring
+  expect(cb).toHaveBeenCalledWith('myvalue!'); // Received!
+  cb.calls.reset(); // reset the calls
+  MashupPlatform.simulateReceiveEvent('othertestv', 'myvalue!'); // Simulate an event in other wiring
+  expect(cb).not.toHaveBeenCalled(); // Not received :)
+  ```
+- Preferences callback simulate:
+  ```javascript
+  var cb = jasmine.createSpy('cb'); // create spy
+  MashupPlatform.prefs.registerCallback(cb); // registe to the preferences
+  expect(cb).not.toHaveBeenCalled();  // Not called yet
+
+  MashupPlatform.simulateReceivePrefs({'test': 'value', 'test2': 'value2'}); // call with a custom object
+  expect(cb).toHaveBeenCalledWith({'test': 'value', 'test2': 'value2'}); // received!
+  MashupPlatform.prefs.set('test', 'value3'); // Call with a pair of values
+  expect(cb).toHaveBeenCalledWith({'test': 'value3'}); // received!
+  ```
+
+Thanks to all this behaviour, your code that use MashupPlatform will work like if it's deployed and you can test better without "tricks".
+
+To see examples of use in jasmine, you can see the tests of this project [here](https://github.com/Wirecloud/mock-applicationmashup/blob/master/test/js/mockMashupPlatformSpec.js)

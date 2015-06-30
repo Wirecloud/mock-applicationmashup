@@ -288,10 +288,28 @@
 
             var cb = jasmine.createSpy('cb');
             MashupPlatform.prefs.registerCallback(cb);
+            expect(MashupPlatform.prefs.get('test')).toBe('value1');
             expect(cb).not.toHaveBeenCalled();
-
             MashupPlatform.prefs.set('test', 'value2');
             expect(cb).toHaveBeenCalledWith({'test': 'value2'});
+        });
+
+        it("Preferences callback with object", function() {
+            var cb = jasmine.createSpy('cb');
+            MashupPlatform.prefs.registerCallback(cb);
+            expect(cb).not.toHaveBeenCalled();
+
+            MashupPlatform.simulateReceivePrefs({'test': 'value', 'test2': 'value2'});
+            expect(cb).toHaveBeenCalledWith({'test': 'value', 'test2': 'value2'});
+        });
+
+        it("Preferences callback simulate only one value", function() {
+            var cb = jasmine.createSpy('cb');
+            MashupPlatform.prefs.registerCallback(cb);
+            expect(cb).not.toHaveBeenCalled();
+
+            MashupPlatform.simulateReceivePrefs('test', 'value');
+            expect(cb).toHaveBeenCalledWith({'test': 'value'});
         });
 
         it("Wiring callback", function() {
@@ -310,6 +328,7 @@
 
             MashupPlatform.simulateReceiveEvent('othertestv', 'myvalue!');
             expect(cb).not.toHaveBeenCalled();
+
         });
 
         it("Don't call the callback if you remove all callbacks, but don't break :)", function() {
