@@ -1,28 +1,28 @@
 {
-    "vendor": "CoNWeT",
-    "name": "mock-applicationmashup",
-    "version": "0.0.9",
-    "description": "A mock helper for MashupPlatform",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/Wirecloud/mock-applicationmashup"
-    },
-    "keywords": [
-        "MashupPlatform",
-        "mock",
-        "wirecloud"
-    ],
-    "author": "CoNWeT Lab., Universidad Politecnica de Madrid",
-    "license": "https://github.com/Wirecloud/mock-applicationmashup/blob/master/LICENSE",
-    "bugs": {
-        "url": "https://github.com/Wirecloud/mock-applicationmashup/issues"
-    },
-    "homepage": "https://github.com/Wirecloud/mock-applicationmashup",
-    "devDependencies": {
-        "grunt": "^0.4.5",
-        "grunt-contrib-jasmine": "^0.8.1",
-        "grunt-template-jasmine-istanbul": "^0.3.0",
-        "grunt-contrib-jshint": "^0.10.0",
-        "grunt-jscs": "^1.2.0"
-    }
+  "vendor": "CoNWeT",
+  "name": "mock-applicationmashup",
+  "version": "0.1.0",
+  "description": "A mock helper for MashupPlatform",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Wirecloud/mock-applicationmashup"
+  },
+  "keywords": [
+    "MashupPlatform",
+    "mock",
+    "wirecloud"
+  ],
+  "author": "CoNWeT Lab., Universidad Politecnica de Madrid",
+  "license": "https://github.com/Wirecloud/mock-applicationmashup/blob/master/LICENSE",
+  "bugs": {
+    "url": "https://github.com/Wirecloud/mock-applicationmashup/issues"
+  },
+  "homepage": "https://github.com/Wirecloud/mock-applicationmashup",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-jasmine": "^0.8.1",
+    "grunt-template-jasmine-istanbul": "^0.3.0",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-jscs": "^1.2.0"
+  }
 }
