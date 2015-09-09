@@ -6,33 +6,49 @@ A javascript mocking library for [MashupPlatform API](http://forge.fiware.org/pl
 Installation
 --------
 
-- Install it without bower.json
+- Using `npm`
 
-```
-bower install mock-applicationmashup --save-dev
-```
+    - Install without adding it to `package.json`
 
-- Add it to bower.json to use in per project.
+    ```
+    npm install -g mock-applicationmashup
+    ```
 
-``` javascript
-// In bower.json:
-{
-    //...
-    "dependencies": {
+    - Add it to devDependencies in `package.json`:
+
+    ```javascript
+    "mock-applicationmashup": "~version", // Now 0.0.9
+    ```
+
+- Using `bower`
+
+    - Install without adding it to `bower.json`
+
+    ```
+    bower install mock-applicationmashup --save-dev
+    ```
+
+    - Add it to bower.json to use in per project.
+
+    ``` javascript
+    // In bower.json:
+    {
         //...
-        "mock-applicationmashup": "~version"  // Right now "~0.0.8"
-        //...
-    },
-    "exportsOverride": {
-        //...
-        "mock-applicationmashup": {},
+        "dependencies": {
+            //...
+            "mock-applicationmashup": "~version"  // Right now "~0.0.9"
+            //...
+        },
+        "exportsOverride": {
+            //...
+            "mock-applicationmashup": {},
+            //...
+        }
         //...
     }
-    //...
-}
-```
+    ```
 
-Then execute `bower install`, or add the task `grunt-bower-task` to your `Gruntfile.js`.
+    Then execute `bower install`, or add the task `grunt-bower-task` to your `Gruntfile.js`.
 
 
 Adding for testing
@@ -42,7 +58,7 @@ Once you have it installed, the file is in `bower_components/mock-applicationmas
 
 Here is an example, using `jasmine`, `grunt`, and the `grunt-contrib-jasmine` task.
 
-To add the mock library, in your jasmine task, you will have to add it in the vendor section, like this:
+To add the mock library, in your jasmine task, you will have to add it in the vendor section, like this (change `node_modules` for `bower_components` if you are using bower instead of npm):
 
 ```javascript
 jasmine: {
@@ -51,7 +67,7 @@ jasmine: {
         options: {
             specs: 'your_test_src/*Spec.js',
             helpers: ['your_test_src/helpers/*.js'],
-            vendor: ['bower_components/mock-applicationmashup/lib/vendor/mockMashupPlatform.js',
+            vendor: ['node_modules/mock-applicationmashup/lib/vendor/mockMashupPlatform.js',
                      'your_test_src/vendor/*.js']
         }
     },
