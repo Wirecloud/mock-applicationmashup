@@ -23,17 +23,6 @@ module.exports = function (grunt) {
 
         pkg: grunt.file.readJSON('package.json'),
 
-        bower: {
-            install: {
-                options: {
-                    layout: function (type, component, source) {
-                        return type;
-                    },
-                    targetDir: './build/lib/lib'
-                }
-            }
-        },
-
         jscs: {
             src: 'lib/**/*',
             options: {
@@ -98,20 +87,14 @@ module.exports = function (grunt) {
 
     });
 
-    grunt.loadNpmTasks('grunt-bower-task');
     grunt.loadNpmTasks('grunt-contrib-jasmine');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-jscs');
 
-    grunt.registerTask('install', 'bower:install');
-    grunt.registerTask('static', ['jshint:grunt', 'jshint', 'jscs']);
+    grunt.registerTask('static', ['jshint', 'jscs']);
     grunt.registerTask('test_t', 'jasmine:coverage');
 
-    grunt.registerTask('test', ['install', 'static', 'test_t']);
-
-    // grunt.registerTask('deploy', ['test',
-    //                               'clean_tmp', 'mcopy', 'strip_code',
-    //                               'version', 'zip']); // Maybe clean_tmp at the end again?
+    grunt.registerTask('test', ['static', 'test_t']);
 
     grunt.registerTask('default', 'test');
 };
