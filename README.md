@@ -17,7 +17,7 @@ Installation
     - Add it to devDependencies in `package.json`:
 
     ```javascript
-    "mock-applicationmashup": "~version", // Now 0.0.9
+    "mock-applicationmashup": "^version", // Now "^0.1.0"
     ```
 
 - Using `bower`
@@ -36,7 +36,7 @@ Installation
         //...
         "dependencies": {
             //...
-            "mock-applicationmashup": "~version"  // Right now "~0.0.9"
+            "mock-applicationmashup": "^version"  // Right now "^0.1.0"
             //...
         },
         "exportsOverride": {
