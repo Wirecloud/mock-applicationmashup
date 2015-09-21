@@ -321,6 +321,15 @@
             expect(cb).toHaveBeenCalledWith('myvalue!');
         });
 
+        it("Wiring callback with object", function() {
+            var cb = jasmine.createSpy('cb');
+            MashupPlatform.wiring.registerCallback('testv', cb);
+            expect(cb).not.toHaveBeenCalled();
+
+            MashupPlatform.simulateReceiveEvent('testv', {"test": 1});
+            expect(cb).toHaveBeenCalledWith('{"test":1}');
+        });
+
         it("Don't call in other wiring event", function() {
             var cb = jasmine.createSpy('cb');
             MashupPlatform.wiring.registerCallback('testv', cb);
@@ -364,6 +373,53 @@
 
             MashupPlatform.simulateReceiveContext('test', 'value');
             expect(cb).toHaveBeenCalledWith({'test': 'value'});
+        });
+    });
+
+    describe("Errors throwed", function () {
+        beforeAll(function () {
+            window.MashupPlatform = new MockMP.MockMP();
+        });
+
+        beforeEach(function () {
+            MashupPlatform.reset();
+        });
+
+        var tryExpect = function tryExpect(f, name, message) {
+            try {
+                f();
+            } catch (error) {
+                expect(error.name).toEqual(name);
+                expect(error.message).toEqual(message);
+            }
+        };
+
+        it("throw EndpointTypeError without message", function() {
+            MashupPlatform.setStrategy({
+                'prefs.get': MockMP.strategy.exception(MashupPlatform.wiring.EndpointTypeError)
+            });
+            tryExpect(MashupPlatform.prefs.get, "EndpointTypeError", "");
+        });
+
+        it("throw EndpointTypeError with message", function() {
+            MashupPlatform.setStrategy({
+                'prefs.get': MockMP.strategy.exception(MashupPlatform.wiring.EndpointTypeError)
+            });
+            tryExpect(function(){MashupPlatform.prefs.get("test");}, "EndpointTypeError", "test");
+        });
+
+        it("throw EndpointValueError without message", function() {
+            MashupPlatform.setStrategy({
+                'prefs.get': MockMP.strategy.exception(MashupPlatform.wiring.EndpointValueError)
+            });
+            tryExpect(MashupPlatform.prefs.get, "EndpointValueError", "");
+        });
+
+        it("throw EndpointValueError with message", function() {
+            MashupPlatform.setStrategy({
+                'prefs.get': MockMP.strategy.exception(MashupPlatform.wiring.EndpointValueError)
+            });
+            tryExpect(function(){MashupPlatform.prefs.get("test");}, "EndpointValueError", "test");
         });
     });
 })();
