@@ -1,7 +1,7 @@
 MashupPlatform Mock for WireCloud.
 =================================
 
-A javascript mocking library for [MashupPlatform API](http://forge.fiware.org/plugins/mediawiki/wiki/fiware/index.php/Application_Mashup_-_Wirecloud_-_User_and_Programmer_Guide#Javascript_API). This library aims to make testing WireCloud widgets in the browser or in phantomjs, as simple as possible.
+A JavaScript mock library for the Application Mashup's [Widget API](http://wirecloud.readthedocs.org/en/latest/widgetapi/widgetapi/). This library aims to make testing WireCloud widgets and operators as simple as possible (from browsers or using phantomjs).
 
 Installation
 --------
@@ -80,10 +80,10 @@ jasmine: {
 Note that we added to the vendor section the mock file, this will add it to your tests.
 
 
-Using it in tests
+Using it in your tests
 ----------
 
-MockSocket is a drop in replacement for the MashupPlatform global found in the WireCloud platform. To replace it, you will have to set it in the window object:
+`MockMP` is a drop in replacement for the `MashupPlatform` global object found when running widgets and operators in the WireCloud platform. To replace it, you will have to set it into the window object:
 
 ```
 window.MashupPlatform = new MockMP.MockMP();
@@ -123,7 +123,7 @@ expect(dictTest('value3')()).toBe(3);
 ```
 
 
-With a new clean instance of MashupPlatform, you can expect the following behaviour with the default values:
+With a new clean instance of `MashupPlatform`, you can expect the following behaviour with the default values:
 
 ```javascript
 
@@ -172,7 +172,7 @@ window.MashupPlatform = new MockMP.MockMP(values);
 expect(MashupPlatform.prefs.get('url')).toEqual('http://example.org');
 expect(MashupPlatform.prefs.get('name')).toEqual('anonymous');
 
-// The other default values don't changes, only that ones that you specify in the constructor
+// The other default values don't changes, only the ones that you specify in the constructor
 expect(MashupPlatform.widget.id).toBe('id33');
 ```
 
