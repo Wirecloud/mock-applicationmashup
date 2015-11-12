@@ -23,21 +23,9 @@ module.exports = function (grunt) {
 
         pkg: grunt.file.readJSON('package.json'),
 
-        jscs: {
-            src: 'lib/**/*',
-            options: {
-                config: ".jscsrc"
-            }
-        },
-
         jshint: {
             options: {
                 jshintrc: true
-            },
-            all: {
-                files: {
-                    src: ['lib/**/*.js']
-                }
             },
             grunt: {
                 options: {
@@ -52,49 +40,122 @@ module.exports = function (grunt) {
                     jshintrc: '.jshintrc-jasmine'
                 },
                 files: {
-                    src: ['test/**/*.js', '!test/fixtures/']
+                    src: ['test/jsES5/*.js', '!test/fixtures/']
                 }
             }
         },
 
         jasmine: {
             test:{
-                src: ['lib/**/*.js'],
+                src: ['dist/**/*.js'],
                 options: {
-                    specs: 'test/js/*Spec.js',
+                    specs: 'test/jsES5/*.spec.js',
                     helpers: ['test/helpers/*.js'],
                     vendor: ['test/vendor/*.js']
                 }
-            },
-            coverage: {
-                src: '<%= jasmine.test.src %>',
+            }
+        },
+
+        browserify: {
+            dist: {
                 options: {
-                    helpers: '<%= jasmine.test.options.helpers %>',
-                    specs: '<%= jasmine.test.options.specs %>',
-                    vendor: '<%= jasmine.test.options.vendor %>',
-                    template: require('grunt-template-jasmine-istanbul'),
-                    templateOptions : {
-                        coverage: 'build/coverage/json/coverage.json',
-                        report: [
-                            {type: 'html', options: {dir: 'build/coverage/html'}},
-                            {type: 'cobertura', options: {dir: 'build/coverage/xml'}},
-                            {type: 'text-summary'}
-                        ]
-                    }
+                    transform: [
+                        ["babelify", {
+                            loose: "all"
+                        }]
+                    ]
+                },
+                files: {
+                    // if the source file has an extension of es6 then
+                    // we change the name of the source file accordingly.
+                    // The result file's extension is always .js
+                    "./dist/MockMP.js": ["./lib/vendor/MockMP.js"]
                 }
             }
-        }
+        },
 
+        watch: {
+            scripts: {
+                files: "./lib/vendor/*.js",
+                tasks: ["browserify"]
+            }
+        },
+
+        eslint: {
+            source: {
+                files: [{
+                    expand: true,
+                    cwd: 'lib/vendor',
+                    src: [
+                        '**/*.js'
+                    ]
+                }]
+            },
+            test: {
+                options: {
+                    configFile: ".eslint-jasminerc"
+                },
+                files: [{
+                    expand: true,
+                    cwd: 'test/js',
+                    src: [
+                        '**/*.js'
+                    ]
+                }]
+            }
+        },
+
+        uglify: {
+            options: {
+                mangle: false
+            },
+            my_target: {
+                files: {
+                    'dist/MockMP.js': ['dist/MockMP.js']
+                }
+            }
+        },
+
+        karma: {
+            headless: {
+                configFile: 'karma.conf.js',
+                options: {
+                    browsers: ['PhantomJS']
+                }
+            },
+
+            debug: {
+                configFile: 'karma.conf.js',
+                options: {
+                    singleRun: false
+                }
+            }
+        },
+
+        clean: {
+            build: {
+                src: ['dist', 'build']
+            }
+        }
     });
 
     grunt.loadNpmTasks('grunt-contrib-jasmine');
     grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-jscs');
+    grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-eslint');
+    grunt.loadNpmTasks('grunt-browserify');
+    grunt.loadNpmTasks("grunt-contrib-watch");
+    grunt.loadNpmTasks('grunt-karma');
 
-    grunt.registerTask('static', ['jshint', 'jscs']);
-    grunt.registerTask('test_t', 'jasmine:coverage');
+    grunt.registerTask('build', ['browserify', 'uglify']);
 
-    grunt.registerTask('test', ['static', 'test_t']);
-
-    grunt.registerTask('default', 'test');
+    grunt.registerTask('default', [
+        'eslint',
+        'clean:build',
+        'karma:headless',
+        'build',
+        'jshint',
+        'jasmine'
+    ]);
 };

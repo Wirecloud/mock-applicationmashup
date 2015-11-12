@@ -3,6 +3,8 @@ MashupPlatform Mock for WireCloud.
 
 A JavaScript mock library for the Application Mashup's [Widget API](http://wirecloud.readthedocs.org/en/latest/widgetapi/widgetapi/). This library aims to make testing WireCloud widgets and operators as simple as possible (from browsers or using phantomjs).
 
+**WARNING: THIS DOCUMENTATION IS FOR VERSION 0.1.3, THE DOCUMENTATION FOR VERSION 1.0.0 ARE NOT READY YET**
+
 Installation
 --------
 
