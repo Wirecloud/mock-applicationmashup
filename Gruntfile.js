@@ -61,15 +61,12 @@ module.exports = function (grunt) {
                 options: {
                     transform: [
                         ["babelify", {
-                            loose: "all"
+                            presets: ["es2015"]
                         }]
                     ]
                 },
                 files: {
-                    // if the source file has an extension of es6 then
-                    // we change the name of the source file accordingly.
-                    // The result file's extension is always .js
-                    "./dist/MockMP.js": ["./lib/vendor/MockMP.js"]
+                    "./dist/MockMP.js": ['node_modules/babel-polyfill/dist/polyfill.js', "./lib/vendor/MockMP.js"]
                 }
             }
         },

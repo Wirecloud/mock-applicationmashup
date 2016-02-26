@@ -1,5 +1,3 @@
-"use strict";
-
 import Context from "lib/vendor/Context";
 
 describe("Context", () => {

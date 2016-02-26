@@ -1,5 +1,3 @@
-"use strict";
-
 import {SimpleCallback, MultipleCallback} from "lib/vendor/Callback";
 
 describe("Callbacks", () => {
@@ -22,7 +20,7 @@ describe("Callbacks", () => {
 
         it("one function, more values", () => {
             const value1 = "TEST", value2 = 3, value3 = [1, 2, 3];
-            const c = jasmine.createSpy(c);
+            const c = jasmine.createSpy("c");
 
             scall.registerCallback(c);
             scall.simulate(value1, value2, value3);

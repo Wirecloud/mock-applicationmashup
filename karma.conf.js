@@ -9,7 +9,7 @@ module.exports = function (config) {
         frameworks: ['jasmine-jquery', 'jasmine'],
 
         files: [
-            'node_modules/babel-core/browser-polyfill.js',
+            'node_modules/babel-polyfill/dist/polyfill.js',
             "test/js/*.spec.js"
         ],
 
@@ -25,19 +25,46 @@ module.exports = function (config) {
 
         webpack: {
             // webpack configuration
+            isparta: {
+                embedSource: true,
+                noAutoWrap: true,
+                // these babel options will be passed only to isparta and not to babel-loader
+                babel: {
+                    presets: ['es2015']
+                }
+            },
             module: {
-                preLoaders: [
+                // preLoaders: [
+                //     // transpile all files except testing sources with babel as usual
+                //     {
+                //         test: /\.js$/,
+                //         exclude: [
+                //             path.resolve('node_modules/')
+                //         ],
+                //         loader: 'babel'
+                //     },
+                //     // transpile and instrument only testing sources with isparta
+                //     {
+                //         test: /^(?!mockMashup).+\.js$/,
+                //         include: path.resolve('lib/vendor/'),
+                //         loader: 'isparta'
+                //     }
+                // ],
+                loaders: [
                     // transpile all files except testing sources with babel as usual
                     {
                         test: /\.js$/,
                         exclude: [
                             path.resolve('node_modules/')
                         ],
-                        loader: 'babel'
+                        loader: 'babel',
+                        query: {
+                            presets: ['es2015']
+                        }
                     },
                     // transpile and instrument only testing sources with isparta
                     {
-                        test: /^(?!mockMashup).+\.js$/,
+                        test: /\.js$/,
                         include: path.resolve('lib/vendor/'),
                         loader: 'isparta'
                     }
@@ -78,6 +105,9 @@ module.exports = function (config) {
             instrumenters: {isparta: require('isparta')},
             instrumenter: {
                 'lib/vendor/*.js': 'isparta'
+            },
+            instrumenterOptions: {
+                isparta: { babel : { presets: "es2015" } }
             },
 
             reporters: [

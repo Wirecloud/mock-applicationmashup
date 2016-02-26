@@ -1,5 +1,3 @@
-"use strict";
-
 import Mashup from "lib/vendor/Mashup";
 
 describe('Mashup', () => {

@@ -1,5 +1,3 @@
-"use strict";
-
 import Endpoint from "lib/vendor/Endpoint";
 
 describe('Endpoint', () => {

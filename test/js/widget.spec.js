@@ -1,5 +1,3 @@
-"use strict";
-
 import Widget from "lib/vendor/Widget";
 
 describe('Widget', () => {

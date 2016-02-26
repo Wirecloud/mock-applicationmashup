@@ -1,6 +1,3 @@
-/* global describe, beforeEach, it, expect, jasmine */
-"use strict";
-
 import MockMP from "lib/vendor/MockMP";
 
 describe("MockMP", () => {
@@ -42,7 +39,8 @@ describe("MockMP", () => {
 
             expect(() =>
                    MashupPlatform.prefs.get("test"))
-                .toThrowError(MashupPlatform.prefs.PreferenceDoesNotExistError, "Preference test does not exist");
+                .toThrowError(Error, "Preference test does not exist");
+            // .toThrowError(MashupPlatform.prefs.PreferenceDoesNotExistError, "Preference test does not exist");
             MashupPlatform.prefs.set("test", "value");
             expect(MashupPlatform.prefs.get("test")).toEqual("value");
 
@@ -83,15 +81,18 @@ describe("MockMP", () => {
         it('should have the exceptions', () => {
             expect(() => {
                 throw new MashupPlatform.wiring.EndpointTypeError();
-            }).toThrowError(MashupPlatform.wiring.EndpointTypeError);
+            }).toThrowError(Error);
+            // }).toThrowError(MashupPlatform.wiring.EndpointTypeError);
 
             expect(() => {
                 throw new MashupPlatform.wiring.EndpointValueError();
-            }).toThrowError(MashupPlatform.wiring.EndpointValueError);
+            }).toThrowError(Error);
+            // }).toThrowError(MashupPlatform.wiring.EndpointValueError);
 
             expect(() => {
                 throw new MashupPlatform.wiring.EndpointDoesNotExistError();
-            }).toThrowError(MashupPlatform.wiring.EndpointDoesNotExistError);
+            }).toThrowError(Error);
+            // }).toThrowError(MashupPlatform.wiring.EndpointDoesNotExistError);
         });
 
 

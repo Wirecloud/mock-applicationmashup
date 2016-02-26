@@ -2,6 +2,7 @@
 (function () {
     "use strict";
 
+    // Example widget
     var Widget = (function () {
         var W = function Widget() {
             this.prefs = {

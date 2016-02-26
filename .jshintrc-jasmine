@@ -1,6 +1,7 @@
 {
     "jasmine": true,
     "browser": true,
+    "node": true,
     "debug": false,
     "devel": false,
     "eqnull": true,
