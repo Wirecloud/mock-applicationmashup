@@ -1,7 +1,8 @@
 /* global module */
 var path = require("path");
+
 module.exports = function (config) {
-    'use strict';
+    "use strict";
     config.set({
         autoWatch: true,
         singleRun: true,

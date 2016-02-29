@@ -1,7 +1,7 @@
 {
   "vendor": "CoNWeT",
   "name": "mock-applicationmashup",
-  "version": "1.0.0",
+  "version": "1.0.0b",
   "description": "A mock helper for MashupPlatform",
   "repository": {
     "type": "git",

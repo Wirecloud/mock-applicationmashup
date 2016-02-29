@@ -50,7 +50,7 @@ module.exports = function (grunt) {
                 src: ['dist/**/*.js'],
                 options: {
                     specs: 'test/jsES5/*.spec.js',
-                    helpers: ['test/helpers/*.js'],
+                    helpers: ['node_modules/babel-polyfill/dist/polyfill.js', 'test/helpers/*.js'],
                     vendor: ['test/vendor/*.js']
                 }
             }
@@ -66,7 +66,7 @@ module.exports = function (grunt) {
                     ]
                 },
                 files: {
-                    "./dist/MockMP.js": ['node_modules/babel-polyfill/dist/polyfill.js', "./lib/vendor/MockMP.js"]
+                    "./dist/MockMP.js": ["./lib/vendor/MockMP.js"]
                 }
             }
         },
