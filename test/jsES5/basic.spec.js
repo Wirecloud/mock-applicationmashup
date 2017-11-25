@@ -50,6 +50,13 @@
             expect(MashupPlatform.widget.inputs.input).toBeDefined();
         });
 
+        it("reset pref values", function () {
+            MashupPlatform.prefs.set("test1", "b");
+            MashupPlatform.prefs.reset();
+
+            expect(MashupPlatform.prefs.get("test1")).toBe("a");
+        });
+
         it("simulate preferences", function() {
             MashupPlatform.wiring.simulate("input", "TESTDATA");
             expect(widget.data).toEqual("TESTDATA");

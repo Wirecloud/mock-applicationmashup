@@ -1,7 +1,7 @@
 {
   "vendor": "CoNWeT",
   "name": "mock-applicationmashup",
-  "version": "1.0.0c",
+  "version": "1.0.0d",
   "description": "A mock helper for MashupPlatform",
   "repository": {
     "type": "git",
@@ -21,7 +21,7 @@
   "devDependencies": {
     "babel": "^6.5.2",
     "babel-core": "^6.5.2",
-    "babel-eslint": "^5.0.0",
+    "babel-eslint": "^8.0.2",
     "babel-loader": "^6.2.3",
     "babel-polyfill": "^6.5.0",
     "babel-preset-es2015": "^6.5.0",
