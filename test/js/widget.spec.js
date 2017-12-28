@@ -91,7 +91,7 @@ describe('Widget', () => {
     });
 
     it('should have default values', () => {
-        widget = new Widget({}, {
+        widget = new Widget({
             id: "123",
             inputs: ["1", "2"],
             outputs: ["3", "4"],

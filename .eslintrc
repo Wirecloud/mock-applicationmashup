@@ -7,8 +7,12 @@
     },
     "plugins": [
     ],
-    "ecmaFeatures": {
-        "jsx": true
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        }
     },
     "rules": {
         "accessor-pairs": 2,
@@ -36,8 +40,8 @@
             "last"
         ],
         "complexity": [
-            2,
-            11
+            "error",
+            {"max": 20}
         ],
         "computed-property-spacing": [
             2,
@@ -229,7 +233,7 @@
         "no-unused-vars": [
             2,
             {
-                "args": "after-used",
+                "args": "none",
                 "vars": "all",
                 "ignore": ["React"]
             }

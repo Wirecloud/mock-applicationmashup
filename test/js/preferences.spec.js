@@ -35,8 +35,7 @@ describe("Preferences", () => {
 
 
     it("default throw error!", () => {
-        // expect(() => prefs.get("test")).toThrowError(prefs.PreferenceDoesNotExistError, "Preference test does not exist");
-        expect(() => prefs.get("test")).toThrowError(Error, "Preference test does not exist");
+        expect(() => prefs.get("test")).toThrowError(prefs.PreferenceDoesNotExistError, "Preference test does not exist");
         // expect(prefs.get("test")).not.toBeDefined();
     });
 
@@ -58,8 +57,7 @@ describe("Preferences", () => {
     });
 
     it('should let set preferences', () => {
-        // expect(() => prefs.get("hola")).toThrowError(prefs.PreferenceDoesNotExistError, "Preference hola does not exist");
-        expect(() => prefs.get("hola")).toThrowError(Error, "Preference hola does not exist");
+        expect(() => prefs.get("hola")).toThrowError(prefs.PreferenceDoesNotExistError, "Preference hola does not exist");
         prefs.setPreferences({
             hola: "test"
         });
@@ -67,13 +65,11 @@ describe("Preferences", () => {
 
         prefs.resetData();
 
-        // expect(() => prefs.get("hola")).toThrowError(prefs.PreferenceDoesNotExistError, "Preference hola does not exist");
-        expect(() => prefs.get("hola")).toThrowError(Error, "Preference hola does not exist");
+        expect(() => prefs.get("hola")).toThrowError(prefs.PreferenceDoesNotExistError, "Preference hola does not exist");
     });
 
     it('should let set default preferences', () => {
-        // expect(() => prefs.get("hola")).toThrowError(prefs.PreferenceDoesNotExistError, "Preference hola does not exist");
-        expect(() => prefs.get("hola")).toThrowError(Error, "Preference hola does not exist");
+        expect(() => prefs.get("hola")).toThrowError(prefs.PreferenceDoesNotExistError, "Preference hola does not exist");
         prefs.setDefaultPreferences({
             hola: "test"
         });

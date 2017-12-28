@@ -1,5 +1,7 @@
-/* global MockMP, beforeAll */
+/* globals MockMP, beforeAll */
+
 (function () {
+
     "use strict";
 
     // Example widget
@@ -38,6 +40,25 @@
         beforeEach(function() {
             MashupPlatform.resetAll();
             widget = new Widget();
+        });
+
+        describe("exceptions", function () {
+
+            it("MashupPlatform.wiring.EndpointValueError", function () {
+                expect(new MashupPlatform.wiring.EndpointValueError())
+                    .toEqual(jasmine.any(MashupPlatform.wiring.EndpointValueError));
+            });
+
+            it("MashupPlatform.wiring.EndpointTypeError", function () {
+                expect(new MashupPlatform.wiring.EndpointTypeError())
+                    .toEqual(jasmine.any(MashupPlatform.wiring.EndpointTypeError));
+            });
+
+            it("MashupPlatform.wiring.EndpointDoesNotExistError", function () {
+                expect(new MashupPlatform.wiring.EndpointDoesNotExistError())
+                    .toEqual(jasmine.any(MashupPlatform.wiring.EndpointDoesNotExistError));
+            });
+
         });
 
         it("default values", function() {

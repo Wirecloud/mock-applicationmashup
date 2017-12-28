@@ -26,54 +26,40 @@ module.exports = function (config) {
 
         webpack: {
             // webpack configuration
-            isparta: {
-                embedSource: true,
-                noAutoWrap: true,
-                // these babel options will be passed only to isparta and not to babel-loader
-                babel: {
-                    presets: ['es2015']
-                }
-            },
             module: {
-                // preLoaders: [
-                //     // transpile all files except testing sources with babel as usual
-                //     {
-                //         test: /\.js$/,
-                //         exclude: [
-                //             path.resolve('node_modules/')
-                //         ],
-                //         loader: 'babel'
-                //     },
-                //     // transpile and instrument only testing sources with isparta
-                //     {
-                //         test: /^(?!mockMashup).+\.js$/,
-                //         include: path.resolve('lib/vendor/'),
-                //         loader: 'isparta'
-                //     }
-                // ],
-                loaders: [
+                rules: [
                     // transpile all files except testing sources with babel as usual
                     {
                         test: /\.js$/,
-                        exclude: [
-                            path.resolve('node_modules/')
-                        ],
-                        loader: 'babel',
-                        query: {
-                            presets: ['es2015']
-                        }
+                        exclude: /(node_modules|bower_components)/,
+                        use: {
+                            loader: 'babel-loader',
+                            options: {
+                                presets: ['es2015'],
+                                plugins: [
+                                    ["babel-plugin-transform-builtin-extend", {
+                                        globals: ["Error", "Array"]
+                                    }]
+                                ]
+                            }
+                        },
                     },
-                    // transpile and instrument only testing sources with isparta
+                    // transpile and instrument only testing sources with istanbul-instrumenter-loader
                     {
                         test: /\.js$/,
                         include: path.resolve('lib/vendor/'),
-                        loader: 'isparta'
+                        loader: 'istanbul-instrumenter-loader',
+                        options: {
+                            esModules: true,
+                            produceSourceMap: true,
+                            autoWrap: true,
+                        }
                     }
                 ]
             },
             resolve: {
-                modulesDirectories: [
-                    "",
+                modules: [
+                    __dirname,
                     "lib",
                     "node_modules"
                 ]
@@ -103,14 +89,6 @@ module.exports = function (config) {
         },
 
         coverageReporter: {
-            instrumenters: {isparta: require('isparta')},
-            instrumenter: {
-                'lib/vendor/*.js': 'isparta'
-            },
-            instrumenterOptions: {
-                isparta: { babel : { presets: "es2015" } }
-            },
-
             reporters: [
                 {
                     type: 'text-summary'

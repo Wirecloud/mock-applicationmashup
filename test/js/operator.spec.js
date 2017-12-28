@@ -65,7 +65,7 @@ describe('Operator', () => {
     });
 
     it('should have default values', () => {
-        operator = new Operator({}, {
+        operator = new Operator({
             id: "123",
             inputs: ["1", "2"],
             outputs: ["3", "4"]
