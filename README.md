@@ -1,7 +1,7 @@
 # MashupPlatform API mock
 
 [![Build Status](https://travis-ci.org/Wirecloud/mock-applicationmashup.svg?branch=develop)](https://travis-ci.org/Wirecloud/mock-applicationmashup)
-[![Coverage Status](https://coveralls.io/repos/github/Wirecloud/mock-applicationmashup/badge.svg?branch=master)](https://coveralls.io/github/Wirecloud/mock-applicationmashup?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/Wirecloud/mock-applicationmashup/badge.svg?branch=develop)](https://coveralls.io/github/Wirecloud/mock-applicationmashup?branch=develop)
 
 A JavaScript mock library for the Application Mashup's [Widget API](http://wirecloud.readthedocs.org/en/latest/widgetapi/widgetapi/). This library aims to make testing WireCloud widgets and operators as simple as possible (from browsers or using phantomjs).
 
