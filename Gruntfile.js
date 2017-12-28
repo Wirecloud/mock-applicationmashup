@@ -138,7 +138,14 @@ module.exports = function (grunt) {
             build: {
                 src: ['dist', 'build']
             }
+        },
+
+        coveralls: {
+            library: {
+                src: 'build/coverage/phantomjs/lcov/lcov.info',
+            }
         }
+
     });
 
     grunt.loadNpmTasks('grunt-contrib-jasmine');
@@ -148,6 +155,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-eslint');
     grunt.loadNpmTasks('grunt-browserify');
     grunt.loadNpmTasks("grunt-contrib-watch");
+    grunt.loadNpmTasks("grunt-coveralls");
     grunt.loadNpmTasks('grunt-karma');
 
     grunt.registerTask('build', ['browserify', 'uglify']);
@@ -159,5 +167,10 @@ module.exports = function (grunt) {
         'build',
         'jshint',
         'jasmine'
+    ]);
+
+    grunt.registerTask('ci', [
+        'default',
+        'coveralls'
     ]);
 };

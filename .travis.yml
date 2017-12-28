@@ -7,7 +7,7 @@ before_install:
     - npm install grunt-cli -g
 
 script:
-    - grunt
+    - grunt ci
 
 branches:
     only:

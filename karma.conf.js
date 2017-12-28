@@ -94,9 +94,9 @@ module.exports = function (config) {
                     type: 'text-summary'
                 },
                 {
-                    type: 'cobertura',
+                    type: 'lcov',
                     dir: 'build/coverage',
-                    subdir: normalizationBrowserName("xml")
+                    subdir: normalizationBrowserName("lcov")
                 },
                 {
                     type: 'json',
