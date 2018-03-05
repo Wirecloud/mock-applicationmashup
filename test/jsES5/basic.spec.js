@@ -1,4 +1,4 @@
-/* globals MockMP, beforeAll */
+/* globals MashupPlatform, MockMP, beforeAll */
 
 (function () {
 
@@ -18,17 +18,17 @@
                 };
             }.bind(this));
 
-            MashupPlatform.wiring.registerCallback('input', function(data) {
+            MashupPlatform.wiring.registerCallback('input', function (data) {
                 this.data = data;
             }.bind(this));
         };
         return W;
     })();
 
-    describe("Test ES5", function() {
+    describe("Test ES5", function () {
         var widget;
 
-        beforeAll(function() {
+        beforeAll(function () {
             window.MashupPlatform = new MockMP({
                 prefs: {
                     test1: "a"
@@ -37,7 +37,7 @@
             });
         });
 
-        beforeEach(function() {
+        beforeEach(function () {
             MashupPlatform.resetAll();
             widget = new Widget();
         });
@@ -61,7 +61,7 @@
 
         });
 
-        it("default values", function() {
+        it("default values", function () {
             expect(widget.prefs).toEqual({
                 test1: "a"
             });
@@ -78,17 +78,17 @@
             expect(MashupPlatform.prefs.get("test1")).toBe("a");
         });
 
-        it("simulate preferences", function() {
+        it("simulate preferences", function () {
             MashupPlatform.wiring.simulate("input", "TESTDATA");
             expect(widget.data).toEqual("TESTDATA");
         });
 
-        it("simulate wiring", function() {
+        it("simulate wiring", function () {
             MashupPlatform.wiring.simulate("input", "TESTDATA");
             expect(widget.data).toEqual("TESTDATA");
         });
 
-        it("simulate prefs", function() {
+        it("simulate prefs", function () {
             MashupPlatform.prefs.simulate({
                 test1: "newvalue"
             });
@@ -97,4 +97,5 @@
             });
         });
     });
+
 })();

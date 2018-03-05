@@ -1,4 +1,4 @@
-/*!
+/*
  *   Copyright 2014-2015 CoNWeT Lab., Universidad Politecnica de Madrid
  *
  *   Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,30 +23,8 @@ module.exports = function (grunt) {
 
         pkg: grunt.file.readJSON('package.json'),
 
-        jshint: {
-            options: {
-                jshintrc: true
-            },
-            grunt: {
-                options: {
-                    jshintrc: '.jshintrc-node'
-                },
-                files: {
-                    src: ['Gruntfile.js']
-                }
-            },
-            test: {
-                options: {
-                    jshintrc: '.jshintrc-jasmine'
-                },
-                files: {
-                    src: ['test/jsES5/*.js', '!test/fixtures/']
-                }
-            }
-        },
-
         jasmine: {
-            test:{
+            test: {
                 src: ['dist/**/*.js'],
                 options: {
                     specs: 'test/jsES5/*.spec.js',
@@ -84,6 +62,15 @@ module.exports = function (grunt) {
         },
 
         eslint: {
+            grunt: {
+                options: {
+                    configFile: ".eslintrc-grunt",
+                    useEslintrc: false
+                },
+                files: {
+                    src: ['Gruntfile.js']
+                }
+            },
             source: {
                 files: [{
                     expand: true,
@@ -95,11 +82,25 @@ module.exports = function (grunt) {
             },
             test: {
                 options: {
-                    configFile: ".eslint-jasminerc"
+                    configFile: ".eslintrc-jasmine-es6",
+                    useEslintrc: false
                 },
                 files: [{
                     expand: true,
                     cwd: 'test/js',
+                    src: [
+                        '**/*.js'
+                    ]
+                }]
+            },
+            testES5: {
+                options: {
+                    configFile: ".eslintrc-jasmine-es5",
+                    useEslintrc: false
+                },
+                files: [{
+                    expand: true,
+                    cwd: 'test/jsES5',
                     src: [
                         '**/*.js'
                     ]
@@ -111,7 +112,7 @@ module.exports = function (grunt) {
             options: {
                 mangle: false
             },
-            my_target: {
+            library: {
                 files: {
                     'dist/MockMP.js': ['dist/MockMP.js']
                 }
@@ -142,21 +143,20 @@ module.exports = function (grunt) {
 
         coveralls: {
             library: {
-                src: 'build/coverage/phantomjs/lcov/lcov.info',
+                src: 'build/coverage/phantomjs/lcov/lcov.info'
             }
         }
 
     });
 
     grunt.loadNpmTasks('grunt-contrib-jasmine');
-    grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-eslint');
     grunt.loadNpmTasks('grunt-browserify');
     grunt.loadNpmTasks("grunt-contrib-watch");
     grunt.loadNpmTasks("grunt-coveralls");
     grunt.loadNpmTasks('grunt-karma');
+    grunt.loadNpmTasks('gruntify-eslint');
 
     grunt.registerTask('build', ['browserify', 'uglify']);
 
@@ -165,7 +165,6 @@ module.exports = function (grunt) {
         'clean:build',
         'karma:headless',
         'build',
-        'jshint',
         'jasmine'
     ]);
 
