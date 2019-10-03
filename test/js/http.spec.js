@@ -38,11 +38,12 @@ describe('Http', () => {
         expect(http.answers.nomethod).toBeUndefined();
     });
 
-
-    it('should mock success static answers', () => {
+    it('should mock success static answers', done => {
         let test1 = false,
             test2 = false,
-            test3 = true;
+            test3 = false,
+            test4 = false,
+            test5 = false;
 
         const jAnswer = `{"yeah": 1}`;
 
@@ -59,17 +60,31 @@ describe('Http', () => {
             onComplete: () => {
                 test3 = true;
             }
-        });
+        }).then(
+            () => {
+                test4 = true;
+            },
+            () => {
+                test5 = true;
+            }
+        );
 
-        expect(test1).toBeTruthy();
-        expect(test2).toBeFalsy();
-        expect(test3).toBeTruthy();
+        setTimeout(() => {
+            expect(test1).toBeTruthy();
+            expect(test2).toBeFalsy();
+            expect(test3).toBeTruthy();
+            expect(test4).toBeTruthy();
+            expect(test5).toBeFalsy();
+            done();
+        }, 0);
     });
 
-    it('should mock error answers', () => {
+    it('should mock error answers', done => {
         let test1 = false,
             test2 = false,
-            test3 = true;
+            test3 = false,
+            test4 = false,
+            test5 = false;
 
         http.addAnswer("post", "/test", 404);
         http.makeRequest("/test", {
@@ -82,11 +97,23 @@ describe('Http', () => {
             onComplete: () => {
                 test3 = true;
             }
-        });
+        }).then(
+            () => {
+                test4 = true;
+            },
+            () => {
+                test5 = true;
+            }
+        );
 
-        expect(test1).toBeFalsy();
-        expect(test2).toBeTruthy();
-        expect(test3).toBeTruthy();
+        setTimeout(() => {
+            expect(test1).toBeFalsy();
+            expect(test2).toBeTruthy();
+            expect(test3).toBeTruthy();
+            expect(test4).toBeTruthy();
+            expect(test5).toBeFalsy();
+            done();
+        }, 0);
     });
 
     it('should mock dynamic answers', () => {
@@ -133,10 +160,12 @@ describe('Http', () => {
         });
     });
 
-    it('should makeRequest to a not handled URL', () => {
+    it('should makeRequest to a not handled URL', done => {
         let test1 = false,
             test2 = false,
-            test3 = true;
+            test3 = false,
+            test4 = false,
+            test5 = false;
 
         http.makeRequest("/test", {
             onSuccess: () => {
@@ -149,10 +178,22 @@ describe('Http', () => {
             onComplete: () => {
                 test3 = true;
             }
-        });
+        }).then(
+            () => {
+                test4 = true;
+            },
+            () => {
+                test5 = true;
+            }
+        );
 
-        expect(test1).toBeFalsy();
-        expect(test2).toBeTruthy();
-        expect(test3).toBeTruthy();
+        setTimeout(() => {
+            expect(test1).toBeFalsy();
+            expect(test2).toBeTruthy();
+            expect(test3).toBeTruthy();
+            expect(test4).toBeFalsy();
+            expect(test5).toBeTruthy();
+            done();
+        }, 0);
     });
 });
