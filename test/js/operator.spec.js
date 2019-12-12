@@ -17,6 +17,13 @@ describe('Operator', () => {
         expect(operator.createOutputEndpoint).toHaveBeenCalled();
     });
 
+    it('should provide a basic mock for log', () => {
+        spyOn(window.console, "log");
+        operator.log.and.callThrough();
+        operator.log();
+        expect(window.console.log).toHaveBeenCalled();
+    });
+
     it('should reset spies', () => {
         operator.log();
         expect(operator.log).toHaveBeenCalled();

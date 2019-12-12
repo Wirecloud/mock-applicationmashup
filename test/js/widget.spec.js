@@ -21,6 +21,13 @@ describe('Widget', () => {
         expect(widget.createOutputEndpoint).toHaveBeenCalled();
     });
 
+    it('should provide a basic mock for log', () => {
+        spyOn(window.console, "log");
+        widget.log.and.callThrough();
+        widget.log();
+        expect(window.console.log).toHaveBeenCalled();
+    });
+
     it('should reset spies', () => {
         widget.log();
         expect(widget.log).toHaveBeenCalled();
